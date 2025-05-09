@@ -19,6 +19,10 @@
 #define R2 12
 #define RPWM 6
 
+#define underLeftB 14
+#define underLeftF 15
+#define underRightB 16
+#define underRightF 17
 
 VL53L0X sensorLeft;
 VL53L0X sensorLeftFront;
@@ -34,6 +38,19 @@ void resetI2CBus() {
   Wire.begin();
   Wire.setClock(100000);
   Serial.println("Reset I2C complet");
+}
+
+bool is_white(int sensor_input)
+{
+  if(sensor_input < 200)
+    return true;
+  else
+    return false; 
+}
+
+void avoid_line()
+{
+    if( is_white(analogRead(underLeftB)) && !is_white(analogRead(underLeftF)) && )
 }
 
 void setPowerR(float speed)
@@ -91,6 +108,12 @@ void setPowerL(float speed) // viteza pins:in1 in2 pwm
 void setup() {
   Serial.begin(9600);
   while(!Serial);
+
+  //Configurare pini de sub robot 
+  pinMode(A3, INPUT); 
+  pinMode(A2, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A0, INPUT); 
 
   //Configurare pini motoare
   //Dreapta
